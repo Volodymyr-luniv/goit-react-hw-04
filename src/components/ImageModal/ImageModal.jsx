@@ -1,5 +1,8 @@
 import { useEffect } from "react";
+import ReactModal from "react-modal";
 import s from "./ImageModal.module.css";
+
+ReactModal.setAppElement("#root");
 
 const ImageModal = ({ isOpen, onRequestClose, largeImageURL, alt }) => {
 	useEffect(() => {
@@ -14,14 +17,18 @@ const ImageModal = ({ isOpen, onRequestClose, largeImageURL, alt }) => {
 		};
 	}, [isOpen]);
 
-	if (!isOpen) return null;
-
 	return (
-		<div className={s.overlay} onClick={onRequestClose}>
-			<div className={s.modal} onClick={(e) => e.stopPropagation()}>
+		<ReactModal
+			isOpen={isOpen}
+			onRequestClose={onRequestClose}
+			className={s.modal}
+			overlayClassName={s.overlay}
+			closeTimeoutMS={300}
+		>
+			<div onClick={(e) => e.stopPropagation()}>
 				<img src={largeImageURL} alt={alt} className={s.modalImage} />
 			</div>
-		</div>
+		</ReactModal>
 	);
 };
 
